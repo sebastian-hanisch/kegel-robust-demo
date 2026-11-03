@@ -44,7 +44,7 @@ def test_row_and_cut_verdicts():
     kind, text = ev.verdict_cut(S0, c)
     assert kind == "success" and "nach 3 Runden mit 4 zusätzlichen Halbräumen (zu den 6 des nominalen LP)" in text and "2,5·10⁻¹⁰" in text
     kind2, text2 = ev.verdict_cut(S0, dict(c, converged=False, n_rounds=30, gap=1e-4))
-    assert kind2 == "info" and "schleppt sich" in text2 and "30 Runden (Grenze)" in text2
+    assert kind2 == "info" and "Rundengrenze ist erreicht" in text2 and "30 Runden (Grenze)" in text2
 
 
 def test_price_verdict_orders_the_shapes():

@@ -232,7 +232,7 @@ def verdict_cut(s: Settings, c: dict) -> tuple:
                 f"(Unterschied {sci(abs(c['gap']))}). Die unendlich vielen Halbräume der Menge fasst die Kegelzeile in einer zusammen.")
         return "success", text
     text = (f"Schnittebenen: nach {c['n_rounds']} Runden (Grenze) mit {c['extra']} zusätzlichen Halbräumen liegt der Wert {de(c['value'], 6)} noch {sci(abs(c['gap']))} über dem SOCP-Wert {de(c['socp'], 6)}: "
-            f"das Verfahren schleppt sich, der Kegel braucht keine Runden.")
+            f"die Rundengrenze ist erreicht (Schnittebenen brauchen bei höherer Dimension mehr Runden, und eine Toleranz unterhalb der Genauigkeit des LP-Lösers endet nicht); der Kegel braucht keine Runden.")
     return "info", text
 
 
@@ -262,7 +262,7 @@ def verdict_dim(rows: list) -> tuple:
     i2 = C.DIM_OMEGAS.index(2.0)
     lo = min(rows, key=lambda r: -r["prices"][i2])
     hi = max(rows, key=lambda r: -r["prices"][i2])
-    text = (f"Bei Ω = 2 kostet die Absicherung zwischen {pct(-lo['prices'][i2], 0)} (d = {lo['d']}) und {pct(-hi['prices'][i2], 0)} (d = {hi['d']}); die Zufalls-LPs sind je d andere Instanzen, der Preis wächst im Trend mit d, aber nicht monoton. "
+    text = (f"Bei Ω = 2 kostet die Absicherung zwischen {pct(-lo['prices'][i2], 0)} (d = {lo['d']}) und {pct(-hi['prices'][i2], 0)} (d = {hi['d']}); die Zufalls-LPs sind je d andere Instanzen, der Preis wächst im Trend mit d (und mit der Zeilenzahl m = 2d), aber nicht monoton. "
             "Die Verletzung der aktiven Zeile bleibt " + ", ".join(f"{pct(r['freq'], 2)} (d = {r['d']})" for r in rows) + " (Formel 1 − Φ(2) = " + pct(rows[0]["p_formula"], 2)
             + "), der Anteil der Ziehungen im Ellipsoid fällt dagegen von " + pct(first["inside"], 0) + " auf " + pct(last["inside"], 1) + f". Der Löser braucht {min(min(r['iterations']) for r in rows)} bis {max(max(r['iterations']) for r in rows)} Iterationen, "
             f"{ms(min(min(r['seconds']) for r in rows))} bis {ms(max(max(r['seconds']) for r in rows))} je Lösung (Zeiten hängen vom Rechner ab).")

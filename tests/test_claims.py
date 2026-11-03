@@ -80,7 +80,7 @@ def test_the_cutting_planes_reach_the_socp_value_in_few_rounds(main):
 
 
 def test_the_price_curve_and_the_limit():
-    """README: Zielwert gegen Ω (Seed 0): Ω = 1 / 2 / 3 / 4 gibt −14,1 / −25,2 / −34,1 / −41,4 %, wachsend mit schrumpfenden Zuwächsen (−14,1, −11,1, −8,9, −7,3 Prozentpunkte je Einheit); Ω_max mit Mindestzeile 6,7265 / 7,4771 / 7,8460 / 9,1057 (Seeds 0 bis 3)."""
+    """README: Zielwert gegen Ω (Seed 0): Ω = 1 / 2 / 3 / 4 gibt −14,1 / −25,2 / −34,1 / −41,4 %, wachsend mit schrumpfenden Zuwächsen (−14,1, −11,1, −8,9, −7,2 Prozentpunkte je Einheit); Ω_max mit Mindestzeile 6,7265 / 7,4771 / 7,8460 / 9,1057 (Seeds 0 bis 3)."""
     p = ev.price_view(S0)
     pr = dict(zip(p["omegas"], p["prices"]))
     assert pr[1.0] == pytest.approx(-0.141, abs=1e-3) and pr[2.0] == pytest.approx(-0.252, abs=1e-3) and pr[3.0] == pytest.approx(-0.341, abs=1e-3) and pr[4.0] == pytest.approx(-0.414, abs=1e-3)

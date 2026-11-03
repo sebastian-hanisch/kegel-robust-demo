@@ -88,7 +88,7 @@ st.markdown(
 **Unsicherheit in einer Nebenbedingung kostet genau eine Kegelzeile.** Liegen die Koeffizienten einer LP-Zeile `aᵀx ≤ b` in einem Ellipsoid `a = ā + Ω P u`, `‖u‖ ≤ 1`, so gilt die Zeile für **alle** möglichen `a` genau dann, wenn
 `āᵀx + Ω‖Pᵀx‖ ≤ b`: ein **Lorentz-Kegel**, der Kegel aus Stück 2 bis 6, diesmal als Modell der Unsicherheit. Die Umformung ist **exakt**, keine Näherung: die unendlich vielen Halbräume der Menge sind in einer Zeile zusammengefasst. Gemessen wird,
 wie das robuste Gebiet schrumpft, was der Radius `Ω` kostet, **was `Ω` als Wahrscheinlichkeit bedeutet** (bei gaußschen Zeilen ist die Verletzung einer aktiven Zeile genau `1 − Φ(Ω)`, aber das Ellipsoid enthält in hohen Dimensionen kaum Masse) und
-wie der Preis mit der Dimension wächst. Stück 14 der Reihe „Konvexe und konische Optimierung“; ein Anwendungsstück ohne neuen Löser.
+wie der Preis mit der Dimension (bei diesem Zufalls-LP-Typ mit `m = 2d` Zeilen) im Trend wächst. Stück 14 der Reihe „Konvexe und konische Optimierung“; ein Anwendungsstück ohne neuen Löser.
 
 Weiter unten: **fünf Experimente** (**🔬**), **🚧 Wo die Annahmen enden** und der Expander **📐 Mathematische Formulierung**.
 """
@@ -99,7 +99,7 @@ with st.expander("So funktioniert es", expanded=True):
         """
 1. **Die Aufgabe:** ein Polygon aus sechs Halbräumen `aᵢᵀx ≤ bᵢ` in der Ebene, maximiere `cᵀx`. Jede Zeile `aᵢ` ist unsicher: sie liegt in einem Ellipsoid um `āᵢ`.
 2. **Die Umformung:** `max_{‖u‖ ≤ 1} (Ω P u)ᵀx = Ω‖Pᵀx‖` (Cauchy–Schwarz), angenommen bei `u* = Pᵀx/‖Pᵀx‖`. Die robuste Zeile ist `(bᵢ − āᵢᵀx ; −Ω Pᵢᵀx) ∈ Lorentz-Kegel`: das Programm ist ein **SOCP**.
-3. **Der Löser:** der primal-duale innere Punkt aus Stück 6 (7 bis 18 Iterationen), je unsichere Zeile ein Lorentz-Kegel der Größe `1 + d`.
+3. **Der Löser:** der primal-duale innere Punkt aus Stück 6 (8 bis 18 Iterationen), je unsichere Zeile ein Lorentz-Kegel der Größe `1 + d`.
 4. **Der Radius `Ω`:** größer heißt sicherer und teurer. Bei gaußschen Zeilen ist `1 − Φ(Ω)` die Verletzung einer aktiven Zeile.
 5. **Die Gegenprobe:** Schnittebenen holen die Halbräume Runde für Runde nach und enden beim selben Wert; cvxpy rechnet dasselbe in den Tests.
         """
@@ -223,12 +223,12 @@ st.markdown(
     """
 | Annahme | Was passiert, wenn sie verletzt ist | Wer setzt an |
 |---|---|---|
-| **Die Zeilen sind zeilenweise unsicher** | Für harte Nebenbedingungen (alle möglichen `a`) zählt jede Zeile für sich: „für alle `u` und alle Zeilen“ ist dasselbe wie „für alle Zeilen und alle `u`“, eine gemeinsame Unsicherheit über Zeilen ändert das robuste Gebiet nicht (Ben-Tal und Nemirovski: zeilenweise Unsicherheit, im Gegensatz zur spaltenweisen von Soyster, die ein extrem konservatives LP ergibt). Die Wahrscheinlichkeit ändert sich dagegen sehr wohl (Experiment 4). | – |
+| **Die Zeilen sind zeilenweise unsicher** | Für harte Nebenbedingungen (alle möglichen `a`) zählt jede Zeile für sich: „für alle `u` und alle Zeilen“ ist dasselbe wie „für alle Zeilen und alle `u`“, eine gemeinsame Unsicherheit über Zeilen ändert das robuste Gebiet nicht, solange jede Zeile für sich das volle Ellipsoid durchläuft (Ben-Tal und Nemirovski: zeilenweise Unsicherheit, im Gegensatz zur spaltenweisen von Soyster, die ein extrem konservatives LP ergibt). Die Wahrscheinlichkeit ändert sich dagegen sehr wohl (Experiment 4). | – |
 | **Das Ellipsoid beschreibt die Daten** | Die Garantie gilt für `a` in der Menge, außerhalb gibt es keine Zusage. In hohen Dimensionen enthält das Ellipsoid fast keine Masse einer Gauß-Verteilung (bei Ω = 2: 86 % in `d = 2`, 5 % in `d = 10`, praktisch 0 in `d = 20`); der Radius sagt dort etwas über die Verletzung einzelner Zeilen, nicht über die Menge. | – |
 | **`Ω` ist eine Wahrscheinlichkeit** | Nur für **unabhängig gaußsche** Zeilen und **je Zeile**: die aktive Zeile wird genau mit `1 − Φ(Ω)` verletzt, inaktive seltener. Gemeinsam über `m` Zeilen gilt höchstens die Summe (Bonferroni, vorsichtig: 1,7 % gemessen bei 5 % Ziel); andere Verteilungen sind nicht gemessen, eine verteilungsfreie Schranke wird nicht gezeigt. | – |
 | **Die Umformung ist exakt** | Für lineare Nebenbedingungen und ein Ellipsoid ja. Unsichere quadratische oder Kegel-Nebenbedingungen und Entscheidungen, die nach der Beobachtung fallen (Zwei-Stufen-Pläne), brauchen andere Umformungen oder sind schwer; nicht gebaut. Eine unsichere Zielfunktion ist über die Epigraphform exakt (`min t` mit `cᵀx ≤ t`). | `robust-opt-demo` (Kapazitätsvorhaltung mit Zukauf) |
 | **Die Box ist das Gleiche in anderer Form** | Eine Box `±δ` je Koordinate ist ein LP (`‖x‖₁`), teurer als die eingeschriebene und kaum billiger als die umschreibende Kugel (in 2D); das Budget Γ von Bertsimas und Sim liegt dazwischen und steht in der Schwester-Demo. | `robust-opt-demo` |
-| **Schnittebenen genügen** | Sie holen die Halbräume nach und enden meist nach wenigen Runden; es gibt Fälle, in denen sie sich über Hunderte Runden schleppen (Phase-0-Messung), die App deckelt auf 30 Runden. Der Kegel braucht keine Runden. | – |
+| **Schnittebenen genügen** | Sie holen die Halbräume nach und enden nach 3 bis 4 Runden in 2D und 15 bis 30 bei `d` = 3 bis 8 (Ω = 2); bei Toleranzen unterhalb der Genauigkeit des LP-Lösers (HiGHS: 10⁻⁷) enden sie nicht, die App deckelt auf 30 Runden. Der Kegel braucht keine Runden. | – |
 | **Der Löser skaliert** | Das dichte KKT-System wächst mit `m (1 + d)`; bei `d = 10` rund 0,1 s, bei `d = 20` etwa 2 s (Vormessung, nicht live). Zeiten hängen vom Rechner ab und werden nicht getestet. | – |
 | **Distributionelle Robustheit** | Für lineare Verluste ist der Aufschlag auf den Mittelwert ein Normterm in `x` (Mohajerin Esfahani und Kuhn), derselbe Baustein wie hier; die Aussage wurde am Text nicht geprüft, die Demo rechnet sie nicht. | – |
 """

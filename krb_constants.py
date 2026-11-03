@@ -39,7 +39,7 @@ PRESETS = {
     "Anderer Seed (Seed 2)": dict(_BASE, seed=2),
 }
 PRESET_HELP = {
-    "Standardfall: Polygon, Ω = 1": "Polygon mit sechs unsicheren Zeilen (Seed 0), Ω = 1: das nominale LP erreicht 1,3369, der robuste Plan 1,1483 (−14,1 %); zwei Zeilen sind aktiv. Der nominale Plan verletzt in der schlechtesten Zeile rund die Hälfte der im Ellipsoid gezogenen Zeilen (75 % irgendeine), der robuste Plan keine.",
+    "Standardfall: Polygon, Ω = 1": "Polygon mit sechs unsicheren Zeilen (Seed 0), Ω = 1: das nominale LP erreicht 1,3369, der robuste Plan 1,1483 (−14,1 %); zwei Zeilen sind aktiv. Der nominale Plan verletzt in der schlechtesten Zeile rund die Hälfte der im Ellipsoid gezogenen Zeilen (75 % irgendeine, bei unabhängig gezogenen Zeilen), der robuste Plan keine.",
     "Ω = 0: das nominale LP": "Ω = 0 ist die Menge aus einem Punkt: der robuste Plan ist das nominale LP (1,3369), die Kegelzeilen werden zu Orthant-Zeilen und es gibt nichts zu verletzen.",
     "Ω = 2,5: gemeinsam unter 5 %": "Ω = 2,5: Zielwert 0,9370 (−29,9 %). Bei gaußschen Zeilen wird die aktive Zeile in 0,63 % der Ziehungen verletzt (1 − Φ(2,5) = 0,62 %), irgendeine der sechs in 1,2 %: unter 5 % gemeinsam, aber teurer als nötig (Experiment 4).",
     "Großer Radius (Ω = 4)": "Ω = 4: Zielwert 0,7838 (−41,4 %). Der Preis wächst weniger als linear in Ω (−14 % bei Ω = 1, −25 % bei 2, −34 % bei 3), und das robuste Gebiet hat nur noch 39 % der Fläche des nominalen (Ω = 1: 76 %, Ω = 2: 59 %; Gitter 161 × 161).",
